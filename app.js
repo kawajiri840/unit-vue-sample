@@ -9,15 +9,19 @@ Vue.createApp({
       prices: [
         {
           id: 1,
-          text: "～100円"
+          text: "G-SHOCK"
         },
         {
           id: 2,
-          text: "101円～500円"
+          text: "Baby-G"
         },
         {
           id: 3,
-          text: "501円～"
+          text: "EDIFICE"
+        },
+        {
+          id: 4,
+          text: "OCEANUS"
         }
       ],
       // 絞り込み価格ID
