@@ -80,34 +80,6 @@ Vue.createApp({
     }
   },
   methods: {
-    createTodo: function () {
-      if (!this.canCreateTodo) {
-        return
-      }
-
-      this.todos.push({
-        id: 'todo-' + Date.now(),
-        title: this.todoTitle,
-        description: this.todoDescription,
-        categories: this.todoCategories,
-        dateTime: Date.now(),
-        done: false,
-      })
-
-      this.todoTitle = ''
-      this.todoDescription = ''
-      this.todoCategories = []
-    },
-    createCategory: function () {
-      if (!this.canCreateCategory) {
-        return
-      }
-
-      this.categories.push(this.categoryName)
-
-      this.categoryName = ''
-    },
-  },
     // 商品一覧をjsonから取得する
     fetchItem: function () {
       const self = this
