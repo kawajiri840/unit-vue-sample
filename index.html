@@ -57,6 +57,21 @@
                 />
                 {{ price.text }}
               </label>
+              <label
+                v-for="wtype in wtypes"
+                :key="wtype.id"
+                class="radio"
+                :for="'wtype' + wtype.id"
+              >
+                <input
+                  :id="'wtype' + wtype.id"
+                  type="radio"
+                  name="wtype"
+                  :value="wtype.id"
+ 
+                />
+                {{ wtype.text }}
+              </label>
             </div>
             <label class="label">タイプ</label>
             <div class="control">
