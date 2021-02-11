@@ -39,9 +39,11 @@
         
 
           <div v-if="acitivePriceTab" class="field">
+            
             <label class="label">価格帯</label>
             <div class="control">
-              <label
+              <form>
+                <label
                 v-for="price in prices"
                 :key="price.id"
                 class="radio"
@@ -56,9 +58,10 @@
                 />
                 {{ price.text }}
               </label>
+              </form>
             </div>
           </div>
-<div class="new-todo-action">
+        <div class="new-todo-action">
           <form id="form-todo" @submit.prevent="createTodo">
             <button type="submit" :disabled="!canCreateTodo">作成</button>
           </form>
