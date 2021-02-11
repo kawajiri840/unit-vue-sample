@@ -22,6 +22,54 @@ Vue.createApp({
         {
           id: 4,
           text: "OCEANUS"
+        },
+        {
+          id: 5,
+          text: "PRO TREK"
+        },
+        {
+          id: 6,
+          text: "SHEEN"
+        }
+      ],
+      wtype: [
+        {
+          id: 1,
+          text: "アナログ"
+        },
+        {
+          id: 2,
+          text: "コンビ"
+        },
+        {
+          id: 3,
+          text: "デジタル"
+        }
+      ],
+      wfunction: [
+        {
+          id: 1,
+          text: "ストップウオッチ"
+        },
+        {
+          id: 2,
+          text: "ワールドタイム"
+        },
+        {
+          id: 3,
+          text: "ワールドタイム"
+        },
+        {
+          id: 4,
+          text: "アラーム"
+        },
+        {
+          id: 5,
+          text: "タイマー"
+        },
+        {
+          id: 6,
+          text: "デュアルタイム"
         }
       ],
       // 絞り込み価格ID

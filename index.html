@@ -40,10 +40,9 @@
 
           <div v-if="acitivePriceTab" class="field">
             
-            <label class="label">価格帯</label>
+            <label class="label">ジャンル</label>
             <div class="control">
-              <form>
-                <label
+              <label
                 v-for="price in prices"
                 :key="price.id"
                 class="radio"
@@ -58,7 +57,42 @@
                 />
                 {{ price.text }}
               </label>
-              </form>
+            </div>
+            <label class="label">タイプ</label>
+            <div class="control">
+              <label
+                v-for="wtype in wtypes"
+                :key="wtype.id"
+                class="radio"
+                :for="'wtype' + wtype.id"
+              >
+                <input
+                  :id="'wtype' + wtype.id"
+                  type="radio"
+                  name="wtype"
+                  :value="wtype.id"
+ 
+                />
+                {{ wtype.text }}
+              </label>
+            </div>
+            <label class="label">機能</label>
+            <div class="control">
+              <label
+                v-for="wfunction in wfunctions"
+                :key="wfunction.id"
+                class="radio"
+                :for="'wfunction' + wfunction.id"
+              >
+                <input
+                  :id="'wfunction' + wfunction.id"
+                  type="radio"
+                  name="wfunction"
+                  :value="wfunction.id"
+ 
+                />
+                {{ wfunction.text }}
+              </label>
             </div>
           </div>
         <div class="new-todo-action">
