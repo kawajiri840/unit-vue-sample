@@ -32,7 +32,7 @@ Vue.createApp({
           text: "SHEEN"
         }
       ],
-      wtype: [
+      wtypes: [
         {
           id: 1,
           text: "アナログ"
@@ -46,7 +46,7 @@ Vue.createApp({
           text: "デジタル"
         }
       ],
-      wfunction: [
+      wfunctions: [
         {
           id: 1,
           text: "ストップウオッチ"
