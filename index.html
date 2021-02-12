@@ -86,7 +86,7 @@
               >
                 <input
                   :id="'wfunction' + wfunction.id"
-                  type="radio"
+                  type="checkbox"
                   name="wfunction"
                   :value="wfunction.id"
  
@@ -95,6 +95,7 @@
               </label>
             </div>
           </div>
+          <div> {{ wfunction.text }}</div>
         <div class="new-todo-action">
           <form id="form-todo" @submit.prevent="createTodo">
             <button type="submit" :disabled="!canCreateTodo">作成</button>
@@ -109,7 +110,7 @@
               <tr>
                 <th>ID</th>
                 <th>ユニット</th>
-                <th class="has-text-right">パラメータ</th>
+                <th class="has-text-right">TAG</th>
               </tr>
             </thead>
             <tbody>
