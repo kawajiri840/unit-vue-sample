@@ -1,134 +1,579 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Item List and Search Sample</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.0/css/bulma.min.css"
-    />
-  </head>
-  <body>
-    <div id="app" class="container">
-      <div class="columns is-mobile is-centered">
-        <div class="column is-half">
-          <h1 class="title is-1">UNIT Search Sample</h1>
+<html lang="ja">
 
-          <div class="tabs is-centered">
-            <ul>
-              <li :class="{ 'is-active': acitiveWordsTab }">
-                <a @click="changeTab(1)">モジュール番号で絞り込む</a>
-              </li>
-              <li :class="{ 'is-active': acitivePriceTab }">
-                <a @click="changeTab(2)">仕様で絞り込む</a>
-              </li>
-            </ul>
-          </div>
+<head>
+  <meta charset="utf-8">
+  <title>Watch Unit Search Sample</title>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.0/css/bulma.min.css"
+  />
+  <link
+    rel="stylesheet"
+    href="style.css"
+  />
+</head>
 
-          <div v-if="acitiveWordsTab" class="field">
-            <label class="label" for="words">モジュール番号</label>
+<body>
+  <header class="navbar u-nav">
+    <div class="navbar-brand">
+      <span class="navbar-item">
+        <span class="fa fa-language"></span>Watch Unit Search Sample
+      </span>
+    </div>
+    <div class="navbar-end">
+      <div class="navbar-item">
+        <div class="field has-addons">
+          <!-- <div class="control">
             <input
-              id="words"
               class="input"
               type="text"
-              name="words"
-              placeholder="モジュール番号を入力してください"
-              v-model.trim="filterText"
-            />
+              name="search"
+              placeholder="キーワード検索"
+            >
           </div>
-        
-
-          <div v-if="acitivePriceTab" class="field">
-            
-            <label class="label">ジャンル</label>
-            <div class="control">
-              <label
-                v-for="price in prices"
-                :key="price.id"
-                class="radio"
-                :for="'price' + price.id"
-              >
-                <input
-                  :id="'price' + price.id"
-                  type="radio"
-                  name="price"
-                  :value="price.id"
- 
-                />
-                {{ price.text }}
-              </label>
-            </div>
-            <label class="label">タイプ</label>
-            <div class="control">
-              <label
-                v-for="wtype in wtypes"
-                :key="wtype.id"
-                class="radio"
-                :for="'wtype' + wtype.id"
-              >
-                <input
-                  :id="'wtype' + wtype.id"
-                  type="radio"
-                  name="wtype"
-                  :value="wtype.id"
- 
-                />
-                {{ wtype.text }}
-              </label>
-            </div>
-            <label class="label">機能</label>
-            <div class="control">
-              <label
-                v-for="wfunction in wfunctions"
-                :key="wfunction.id"
-                class="radio"
-                :for="'wfunction' + wfunction.id"
-              >
-                <input
-                  :id="'wfunction' + wfunction.id"
-                  type="checkbox"
-                  name="wfunction"
-                  :value="wfunction.id"
- 
-                />
-                {{ wfunction.text }}
-              </label>
-            </div>
-          </div>
-        <div class="new-todo-action">
-          <form id="form-todo" @submit.prevent="createTodo">
-            <button type="submit" :disabled="!canCreateTodo">作成</button>
-          </form>
-        </div>
-        </div>
-      </div>
-              <div class="columns is-mobile is-centered">
-        <div class="column is-half">
-          <table class="table is-striped is-fullwidth">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>ユニット</th>
-                <th class="has-text-right">TAG</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="item in filteredItems" :key="item.id">
-                <td>{{ item.id }}</td>
-                <td>{{ item.name }}</td>
-                <td class="has-text-right">{{ item.price }}</td>
-              </tr>
-            </tbody>
-          </table>
-          <p v-if="filteredItems.length === 0" class="has-text-centered">
-            対象のユニットは見当たりませんでした。
-          </p>
+          <div class="control">
+            <a class="button is-info"><i class="fa fa-search"></i>検索</a>
+          </div> -->
         </div>
       </div>
     </div>
+    <div class="navbar-item">
+      <a href="https://docs.google.com/spreadsheets/d/1iQ0tQbvOGl883PvmQk4XxamFw4ITKhnmsGNZ8Ue_f_Y/edit?usp=sharing" target="_blank"><i class="fa fa-user"></i>ユニット資料</a>
+    </div>
+    </div>
+  </header>
 
-    <script src="https://cdn.jsdelivr.net/npm/vue@3.0.0/dist/vue.global.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
-    <script src="./app.js"></script>
-  </body>
+  <main class="container">
+    <div id="app">
+      <div class="columns u-info">
+        <div class="column is-2 u-info">
+
+          <div class="buttons">
+            <button
+              class="button is-primary is-small"
+              v-on:click="submitText"
+            >検索</button>
+            <button
+              class="button is-primary is-small"
+              v-on:click="formclear"
+            >クリア</button>
+            <button
+              class="button is-primary is-small"
+              v-on:click="unitall"
+            >全表示</button>
+          </div>
+        </div>
+        <div class="column is-10 u-info">
+          <p><span>選択：{{ checked02 }}</span><span> 抽出：{{ filterText1 }}</span></p>
+          <p>選択：{{ checked03 }}</p>
+          <p>抽出：{{ filterText }}</p>
+
+
+        </div>
+      </div>
+      <div class="columns u-main">
+        <div class="column is-5">
+          <div class="example">
+            <table class="table is-fullwidth">
+              <tbody>
+                <tr>
+                  <th style="width: 20%;">タイプ</th>
+                  <td>
+                    <label
+                      v-for="price in prices"
+                      :key="price.id"
+                      class="radio"
+                      :for="'price' + price.id"
+                    >
+                      <input
+                        :id="'price' + price.id"
+                        type="radio"
+                        name="price"
+                        :value="price.ortag"
+                        v-model.trim="checked02"
+                      />
+                      {{ price.text }}
+                    </label>
+
+                  </td>
+                </tr>
+                <tr>
+                  <th>機能</th>
+                  <td>
+
+                    <label
+                      v-for="poke in pokes"
+                      :key="poke.id"
+                      class="checkbox"
+                      :for="'poke' + poke.id"
+                    >
+                      <input
+                        :id="'poke' + poke.id"
+                        type="checkbox"
+                        name="poke"
+                        :value="poke.tag"
+                        v-model="checked03"
+                      />
+                      {{ poke.text }}
+                    </label>
+
+                  </td>
+                </tr>
+                <tr>
+                  <th>基本時計</th>
+                  <td>
+                    <p class="glabel">ソーラー</p>
+                    <div
+                      class="inlineitem"
+                      v-for="solar in solars"
+                    >
+                      <label
+                        :key="solar.id"
+                        class="radio"
+                        :for="'solar' + solar.id"
+                      >
+                        <input
+                          :id="'solar' + solar.id"
+                          type="radio"
+                          name="solar"
+                          :value="solar.tag"
+                          v-model.trim="checkedbasic01"
+                        />
+                        {{ solar.text }}
+                      </label>
+                    </div>
+                    <!-- 表示非表示用 -->
+                    <div
+                      class="clpsblock"
+                      v-for="collapse in collapses"
+                    >
+                      <label
+                        :key="collapse.id"
+                        class="radio"
+                        :for="'collapse' + collapse.id"
+                      >
+                        <input
+                          :id="'collapse' + collapse.id"
+                          type="radio"
+                          name="collapse"
+                          :value="collapse.tag"
+                          v-model.trim="checkedbasic02"
+                        />
+                        {{ collapse.text }}
+                      </label>
+                    </div>
+
+                  </td>
+                </tr>
+                <tr>
+                  <th></th>
+                  <td>
+                    <p class="glabel">搭載機能</p>
+                    <div
+                      class="inlineitem"
+                      v-for="dijifun in dijifuns"
+                    >
+                      <label
+                        :key="dijifun.id"
+                        class="checkbox"
+                        :for="'dijifun' + dijifun.id"
+                      >
+                        <input
+                          :id="'dijifun' + dijifun.id"
+                          type="checkbox"
+                          name="dijifun"
+                          :value="dijifun.tag"
+                          v-model="checked03"
+                        />
+                        {{ dijifun.text }}
+                      </label>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <th>タイマー</th>
+                  <td>
+                    <p class="glabel">計測範囲＜通常計測＞</p>
+                    <div
+                      class="inlineitem"
+                      v-for="keisokuhani in keisokuhanis"
+                    >
+                      <label
+                        :key="keisokuhani.id"
+                        class="radio"
+                        :for="'keisokuhani' + keisokuhani.id"
+                      >
+                        <input
+                          :id="'keisokuhani' + keisokuhani.id"
+                          type="radio"
+                          name="keisokuhani"
+                          :value="keisokuhani.tag"
+                          v-model="checkedTimer01"
+                        />
+                        {{ keisokuhani.text }}
+                      </label>
+                    </div>
+                    <p class="glabel">計測単位</p>
+                    <div
+                      class="inlineitem"
+                      v-for="keisokutani in keisokutanis"
+                    >
+                      <label
+                        :key="keisokutani.id"
+                        class="radio"
+                        :for="'keisokutani' + keisokutani.id"
+                      >
+                        <input
+                          :id="'keisokutani' + keisokutani.id"
+                          type="radio"
+                          name="keisokutani"
+                          :value="keisokutani.tag"
+                          v-model="checkedTimer02"
+                        />
+                        {{ keisokutani.text }}
+                      </label>
+                    </div>
+                    <p class="glabel">設定単位</p>
+                    <div
+                      class="inlineitem"
+                      v-for="settani in settanis"
+                    >
+                      <label
+                        :key="settani.id"
+                        class="radio"
+                        :for="'settani' + settani.id"
+                      >
+                        <input
+                          :id="'settani' + settani.id"
+                          type="radio"
+                          name="settani"
+                          :value="settani.tag"
+                          v-model="checkedTimer03"
+                        />
+                        {{ settani.text }}
+                      </label>
+                    </div>
+                    <p class="glabel">タイムアップ音の報音時間</p>
+                    <div
+                      class="inlineitem"
+                      v-for="timeupsoundtime in timeupsoundtimes"
+                    >
+                      <label
+                        :key="timeupsoundtime.id"
+                        class="radio"
+                        :for="'timeupsoundtime' + timeupsoundtime.id"
+                      >
+                        <input
+                          :id="'timeupsoundtime' + timeupsoundtime.id"
+                          type="radio"
+                          name="timeupsoundtime"
+                          :value="timeupsoundtime.tag"
+                          v-model="checkedTimer05"
+                        />
+                        {{ timeupsoundtime.text }}
+                      </label>
+                    </div>
+                    <div class="clpsblock">
+                    <p class="glabel">タイマー時間セット（アナログ）</p>
+                    <div
+                      class="inlineitem"
+                      v-for="timersetanalog in timersetanalogs"
+                    >
+                      <label
+                        :key="timersetanalog.id"
+                        class="radio"
+                        :for="'timersetanalog' + timersetanalog.id"
+                      >
+                        <input
+                          :id="'timersetanalog' + timersetanalog.id"
+                          type="radio"
+                          name="timersetanalog"
+                          :value="timersetanalog.tag"
+                          v-model="checkedTimer06"
+                        />
+                        {{ timersetanalog.text }}
+                      </label>
+                    </div>
+                    <p class="glabel">タイマー時間セット（コンビ）</p>
+                    <div
+                      class="inlineitem"
+                      v-for="timersetcomb in timersetcombs"
+                    >
+                      <label
+                        :key="timersetcomb.id"
+                        class="radio"
+                        :for="'timersetcomb' + timersetcomb.id"
+                      >
+                        <input
+                          :id="'timersetcomb' + timersetcomb.id"
+                          type="radio"
+                          name="timersetcomb"
+                          :value="timersetcomb.tag"
+                          v-model="checkedTimer07"
+                        />
+                        {{ timersetcomb.text }}
+                      </label>
+                    </div>
+                    <p class="glabel">セット時表示パターン（コンビ）</p>
+                    <div
+                      class="inlineitem"
+                      v-for="timersetcombdisplay in timersetcombdisplays"
+                    >
+                      <label
+                        :key="timersetcombdisplay.id"
+                        class="radio"
+                        :for="'timersetcombdisplay' + timersetcombdisplay.id"
+                      >
+                        <input
+                          :id="'timersetcombdisplay' + timersetcombdisplay.id"
+                          type="radio"
+                          name="timersetcombdisplay"
+                          :value="timersetcombdisplay.tag"
+                          v-model="checkedTimer08"
+                        />
+                        {{ timersetcombdisplay.text }}
+                      </label>
+                    </div>
+                    <p class="glabel">タイマー時間セット（デジタル）</p>
+                    <div
+                      class="inlineitem"
+                      v-for="timersetdigi in timersetdigis"
+                    >
+                      <label
+                        :key="timersetdigi.id"
+                        class="radio"
+                        :for="'timersetdigi' + timersetdigi.id"
+                      >
+                        <input
+                          :id="'timersetdigi' + timersetdigi.id"
+                          type="radio"
+                          name="timersetdigi"
+                          :value="timersetdigi.tag"
+                          v-model="checkedTimer09"
+                        />
+                        {{ timersetdigi.text }}
+                      </label>
+                    </div>
+                    <p class="glabel">セット時表示パターン（デジタル）</p>
+                    <div
+                      class="inlineitem"
+                      v-for="timersetcombdisplay in timersetcombdisplays"
+                    >
+                      <label
+                        :key="timersetcombdisplay.id"
+                        class="radio"
+                        :for="'timersetcombdisplay' + timersetcombdisplay.id"
+                      >
+                        <input
+                          :id="'timersetcombdisplay' + timersetcombdisplay.id"
+                          type="radio"
+                          name="timersetcombdisplay"
+                          :value="timersetcombdisplay.tag"
+                          v-model="checkedTimer10"
+                        />
+                        {{ timersetcombdisplay.text }}
+                      </label>
+                    </div>
+                    </div>
+                    <p class="glabel">オートリピート</p>
+                    <div
+                      class="inlineitem"
+                      v-for="autorepeat in autorepeats"
+                    >
+                      <label
+                        :key="autorepeat.id"
+                        class="radio"
+                        :for="'autorepeat' + autorepeat.id"
+                      >
+                        <input
+                          :id="'autorepeat' + autorepeat.id"
+                          type="radio"
+                          name="autorepeat"
+                          :value="autorepeat.tag"
+                          v-model="checkedTimer11"
+                        />
+                        {{ autorepeat.text }}
+                      </label>
+                    </div>
+                    <p class="glabel">リピート回数の制限</p>
+                    <div
+                      class="inlineitem clpsblock"
+                      v-for="autorepeattime in autorepeattimes"
+                    >
+                      <label
+                        :key="autorepeattime.id"
+                        class="radio"
+                        :for="'autorepeattime' + autorepeattime.id"
+                      >
+                        <input
+                          :id="'autorepeattime' + autorepeattime.id"
+                          type="radio"
+                          name="autorepeattime"
+                          :value="autorepeattime.tag"
+                          v-model="checkedTimer12"
+                        />
+                        {{ autorepeattime.text }}
+                      </label>
+                    </div>
+                    <p class="glabel">予告音</p>
+                    <div
+                      class="inlineitem"
+                      v-for="psound in psounds"
+                    >
+                      <label
+                        :key="psound.id"
+                        class="radio"
+                        :for="'psound' + psound.id"
+                      >
+                        <input
+                          :id="'psound' + psound.id"
+                          type="radio"
+                          name="psound"
+                          :value="psound.tag"
+                          v-model="checkedTimer13"
+                        />
+                        {{ psound.text }}
+                      </label>
+                    </div>
+                    <p class="glabel">予告音が鳴るパターン</p>
+                    <div
+                      class="inlineitem clpsblock"
+                      v-for="psoundpattern in psoundpatterns"
+                    >
+                      <label
+                        :key="psoundpattern.id"
+                        class="radio"
+                        :for="'psoundpattern' + psoundpattern.id"
+                      >
+                        <input
+                          :id="'psoundpattern' + psoundpattern.id"
+                          type="radio"
+                          name="psoundpattern"
+                          :value="psoundpattern.tag"
+                          v-model="checkedTimer14"
+                        />
+                        {{ psoundpattern.text }}
+                      </label>
+                    </div>
+                    <p class="glabel">時刻モードからのダイレクトスタート</p>
+                    <div
+                      class="inlineitem"
+                      v-for="directstart in directstarts"
+                    >
+                      <label
+                        :key="directstart.id"
+                        class="radio"
+                        :for="'directstart' + directstart.id"
+                      >
+                        <input
+                          :id="'directstart' + directstart.id"
+                          type="radio"
+                          name="directstart"
+                          :value="directstart.tag"
+                          v-model="checkedTimer15"
+                        />
+                        {{ directstart.text }}
+                      </label>
+                    </div>
+                    <p class="glabel">経過時間計測</p>
+                    <div
+                      class="inlineitem"
+                      v-for="elapsedtime in elapsedtimes"
+                    >
+                      <label
+                        :key="elapsedtime.id"
+                        class="radio"
+                        :for="'elapsedtime' + elapsedtime.id"
+                      >
+                        <input
+                          :id="'elapsedtime' + elapsedtime.id"
+                          type="radio"
+                          name="elapsedtime"
+                          :value="elapsedtime.tag"
+                          v-model="checkedTimer16"
+                        />
+                        {{ elapsedtime.text }}
+                      </label>
+                    </div>
+                    <p class="glabel">経過時間計測のパターン</p>
+                    <div
+                      class="inlineitem clpsblock"
+                      v-for="elapsedtimepattern in elapsedtimepatterns"
+                    >
+                      <label
+                        :key="elapsedtimepattern.id"
+                        class="radio"
+                        :for="'elapsedtimepattern' + elapsedtimepattern.id"
+                      >
+                        <input
+                          :id="'elapsedtimepattern' + elapsedtimepattern.id"
+                          type="radio"
+                          name="elapsedtimepattern"
+                          :value="elapsedtimepattern.tag"
+                          v-model="checkedTimer17"
+                        />
+                        {{ elapsedtimepattern.text }}
+                      </label>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="column is-7">
+          <div class="example">
+            <table class="table is-striped is-fullwidth">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>orTAG</th>
+                  <th>TAG</th>
+                  <th class="has-text-centered">UNIT</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  v-for="item in sorted"
+                  :key="item.view"
+                >
+                  <td>{{ item.view }}</td>
+                  <td>
+                    <ul
+                      class="u-tag1"
+                      v-for="ortag in item.ortags"
+                    >
+                      <li><span class="tag is-link u-tag3">{{ ortag }}</span></li>
+                    </ul>
+                  </td>
+                  <td>
+                    <ul
+                      class="u-tag1"
+                      v-for="tag in item.tags"
+                    >
+                      <li><span class="tag is-info u-tag3">{{ tag }}</span></li>
+                    </ul>
+                  </td>
+                  <td>
+                    <p :class="item.class">{{ item.text }}</p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- <p v-if="filteredItems.length === 0" class="has-text-centered">
+            対象の商品は見当たりませんでした。
+          </p> -->
+        </div>
+      </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@3.0.0/dist/vue.global.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.10/lodash.min.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script> -->
+  <script src="app.js"></script>
+</body>
+
 </html>

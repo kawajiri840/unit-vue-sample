@@ -1,0 +1,140 @@
+/* body {
+    font-size: 14px;
+} */
+
+.list {
+    max-width: 800px;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.list_item {
+    width: 33.333%;
+    margin: 0;
+    padding: 15px;
+    box-sizing: border-box;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    list-style: none;
+}
+
+.list_item:nth-child(1), .list_item:nth-child(2), .list_item:nth-child(3) {
+    border-top: 1px solid #ccc;
+}
+
+.list_item:nth-child(3n-2) {
+    border-left: 1px solid #ccc;
+}
+
+/* html, body {
+ height: 100%;
+    background-color: aliceblue;
+} */
+html {
+ /* height: 100%; */
+    background-color: aliceblue;
+}
+div.column {
+    padding: 0px;
+    margin: 8px;
+    background-color: white;
+}
+
+ul.u-tag1 {
+    display: inline-block;
+}
+
+/* li.tag2 {
+    color: blue;
+    font-size: smaller;
+} */
+
+.navbar {
+    background-color: #333333;
+}
+
+.navbar-item {
+    color: white;
+}
+
+.u-tag3 {
+    margin: 1px;
+    font-size: smaller;
+}
+
+.inlineitem {
+    display: inline-block;
+    margin-right: 8px;
+}
+
+.checkbox {
+    margin-right: 8px;
+}
+
+.glabel {
+    color: #0066cc;
+    /* font-weight: bold; */
+    margin-top: 3px;
+    font-size: smaller;
+}
+
+.clpsblock {
+    background-color: #ffffcc;
+}
+/* .clpsblock2 {
+    background-color: #99ff99;
+} */
+
+/* .u-nav {
+    padding-top: 0.5em;
+    position: fixed;
+    width: 100%;
+z-index: 100; 
+} */
+.u-info {
+    padding-top: 10px;
+    /* position: fixed;
+    width: 100%; */
+    background-color: aliceblue !important;
+    /* z-index: 10;  */
+}
+/* .u-main {
+    padding-top: 10em;
+} */
+p.module1, p.module2 {
+    font-size:x-large;
+    font-weight: bold;
+}
+/* .example {
+      width: auto;
+  height: 700px;
+  background-color: red;
+  overflow: scroll;
+
+} */
+	.example {
+		overflow:auto;
+		width:100%; 
+        height: 75vh;
+		/* padding:5px;
+		border:2px dotted #ffffff;
+		color:#e8e8e8;
+		background-color:#5bc6ed; */
+		line-height:1.5em;
+	}
+
+p.ref {
+    color:blue;
+}
+p.step {
+    font-weight: bold;
+}
+p.step:first-letter {
+  color     :red;
+  padding-right : 5px;
+}
+/* p.list, p.steplist:before{
+  content:"(挿入するコンテンツ)";
+} */
